@@ -3,6 +3,8 @@ using NUnit.Framework;
 
 // ReSharper disable StringLiteralTypo
 #pragma warning disable CA1707
+#pragma warning disable S2699
+#pragma warning disable S108
 
 namespace ExceptionGuardClauses.Tests
 {
@@ -14,6 +16,20 @@ namespace ExceptionGuardClauses.Tests
         public void ConvertHexCharToInteger_CharIsInvalid_ThrowsArgumentException(char c)
         {
             Assert.Throws<ArgumentException>(() => ThrowingExceptions.ConvertHexCharToInteger(c));
+        }
+
+        [TestCase('G')]
+        [TestCase('H')]
+        [TestCase('Z')]
+        public void ConvertHexCharToInteger_CharIsInvalid_ThrowsArgumentExceptionWithCorrectParameterName(char c)
+        {
+            try
+            {
+                ThrowingExceptions.ConvertHexCharToInteger(c);
+            }
+            catch (ArgumentException e) when (e.ParamName == "c")
+            {
+            }
         }
 
         [TestCase('A', ExpectedResult = 10)]
@@ -31,9 +47,33 @@ namespace ExceptionGuardClauses.Tests
         }
 
         [Test]
+        public void GenerateUserCode_CodeIsNullOrEmpty_ThrowsArgumentNullExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GenerateUserCode(null, 0);
+            }
+            catch (ArgumentNullException e) when (e.ParamName == "code")
+            {
+            }
+        }
+
+        [Test]
         public void GenerateUserCode_CodeLengthIsNotEqualsFour_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => ThrowingExceptions.GenerateUserCode("ABC", 0));
+        }
+
+        [Test]
+        public void GenerateUserCode_CodeLengthIsNotEqualsFour_ThrowsArgumentExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GenerateUserCode("ABC", 0);
+            }
+            catch (ArgumentException e) when (e.ParamName == "code")
+            {
+            }
         }
 
         [TestCase(-1)]
@@ -43,6 +83,21 @@ namespace ExceptionGuardClauses.Tests
         public void GenerateUserCode_DayIsOutOfRange_ThrowsArgumentOutOfRangeException(int day)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => ThrowingExceptions.GenerateUserCode("ABCD", day));
+        }
+
+        [TestCase(-1)]
+        [TestCase(0)]
+        [TestCase(100)]
+        [TestCase(101)]
+        public void GenerateUserCode_DayIsOutOfRange_ThrowsArgumentOutOfRangeExceptionWithCorrectParameterName(int day)
+        {
+            try
+            {
+                ThrowingExceptions.GenerateUserCode("ABCD", day);
+            }
+            catch (ArgumentOutOfRangeException e) when (e.ParamName == "day")
+            {
+            }
         }
 
         [TestCase("ABCD", 1, ExpectedResult = "ABCD1")]
@@ -57,6 +112,18 @@ namespace ExceptionGuardClauses.Tests
         public void GetLastCharacter_StrIsNull_ThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => ThrowingExceptions.GetLastCharacter(null));
+        }
+
+        [Test]
+        public void GetLastCharacter_StrIsNull_ThrowsArgumentNullExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GetLastCharacter(null);
+            }
+            catch (ArgumentNullException e) when (e.ParamName == "str")
+            {
+            }
         }
 
         [TestCase("a", ExpectedResult = 'a')]
@@ -74,10 +141,35 @@ namespace ExceptionGuardClauses.Tests
             Assert.Throws<ArgumentNullException>(() => ThrowingExceptions.GenerateGreeting(hello, Array.Empty<string>(), 0));
         }
 
+        [TestCase(null)]
+        [TestCase("")]
+        public void GenerateGreeting_HelloIsNullOrEmpty_ThrowsArgumentNullExceptionWithCorrectParameterName(string hello)
+        {
+            try
+            {
+                ThrowingExceptions.GenerateGreeting(hello, Array.Empty<string>(), 0);
+            }
+            catch (ArgumentNullException e) when (e.ParamName == "hello")
+            {
+            }
+        }
+
         [Test]
         public void GenerateGreeting_AddresseeIsNull_ThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => ThrowingExceptions.GenerateGreeting("Hello", null, 0));
+        }
+
+        [Test]
+        public void GenerateGreeting_AddresseeIsNull_ThrowsArgumentNullExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GenerateGreeting("Hello", null, 0);
+            }
+            catch (ArgumentNullException e) when (e.ParamName == "addressee")
+            {
+            }
         }
 
         [Test]
@@ -86,11 +178,36 @@ namespace ExceptionGuardClauses.Tests
             Assert.Throws<ArgumentException>(() => ThrowingExceptions.GenerateGreeting("Hello", Array.Empty<string>(), 0));
         }
 
+        [Test]
+        public void GenerateGreeting_AddresseeIsEmpty_ThrowsArgumentNullExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GenerateGreeting("Hello", Array.Empty<string>(), 0);
+            }
+            catch (ArgumentException e) when (e.ParamName == "addressee")
+            {
+            }
+        }
+
         [TestCase(-1)]
         [TestCase(1)]
         public void GenerateGreeting_IndexIsOutOfRange_ThrowsArgumentNullException(int index)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => ThrowingExceptions.GenerateGreeting("Hello", new string[] { "world" }, index));
+        }
+
+        [TestCase(-1)]
+        [TestCase(1)]
+        public void GenerateGreeting_IndexIsOutOfRange_ThrowsArgumentNullExceptionWithCorrectParameterName(int index)
+        {
+            try
+            {
+                ThrowingExceptions.GenerateGreeting("Hello", new string[] { "world" }, index);
+            }
+            catch (ArgumentOutOfRangeException e) when (e.ParamName == "index")
+            {
+            }
         }
 
         [TestCase("Hello", new string[] { "world", "universe" }, 0, ExpectedResult = "Hello, world!")]
@@ -107,9 +224,33 @@ namespace ExceptionGuardClauses.Tests
         }
 
         [Test]
+        public void GetArrayValue_IndexArrayIsNull_ThrowsNullArgumentExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GetArrayValue(null, 0, Array.Empty<string>());
+            }
+            catch (ArgumentNullException e) when (e.ParamName == "indexArray")
+            {
+            }
+        }
+
+        [Test]
         public void GetArrayValue_IndexArrayIsEmpty_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => ThrowingExceptions.GetArrayValue(Array.Empty<int>(), 0, Array.Empty<string>()));
+        }
+
+        [Test]
+        public void GetArrayValue_IndexArrayIsEmpty_ThrowsArgumentExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GetArrayValue(Array.Empty<int>(), 0, Array.Empty<string>());
+            }
+            catch (ArgumentException e) when (e.ParamName == "indexArray")
+            {
+            }
         }
 
         [Test]
@@ -119,9 +260,33 @@ namespace ExceptionGuardClauses.Tests
         }
 
         [Test]
+        public void GetArrayValue_ValueArrayIsNull_ThrowsArgumentNullExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GetArrayValue(new int[] { 0 }, 0, null);
+            }
+            catch (ArgumentNullException e) when (e.ParamName == "valueArray")
+            {
+            }
+        }
+
+        [Test]
         public void GetArrayValue_ValueArrayIsEmpty_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => ThrowingExceptions.GetArrayValue(new int[] { 0 }, 0, Array.Empty<string>()));
+        }
+
+        [Test]
+        public void GetArrayValue_ValueArrayIsEmpty_ThrowsArgumentExceptionWithCorrectParameterName()
+        {
+            try
+            {
+                ThrowingExceptions.GetArrayValue(new int[] { 0 }, 0, Array.Empty<string>());
+            }
+            catch (ArgumentException e) when (e.ParamName == "valueArray")
+            {
+            }
         }
 
         [TestCase(new int[] { -1 })]
