@@ -32,7 +32,7 @@ public static int ConvertHexCharToInteger(char c)
 }
 ```
 
-The description of ArgumentException says "The exception that is thrown when one of the arguments provided to a method is not valid", and this means using ArgumentException is more descriptive and clear than using Exception class.
+The [description of ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/system.argumentexception) says "The exception that is thrown when one of the arguments provided to a method is not valid", and this means using ArgumentException is more descriptive and clear than using Exception class.
 
 ```cs
 public static int ConvertHexCharToInteger(char c)
@@ -55,7 +55,7 @@ Example - a method argument "c" is not valid.
 A [constructor description for ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/system.argumentexception.-ctor?view=net-5.0#System_ArgumentException__ctor_System_String_System_String_) says "Initializes a new instance of the ArgumentException class with a specified error message and the name of the parameter that causes this exception".
 
 ```cs
-public ArgumentException (string message, string paramName);
+public ArgumentException(string message, string paramName);
 ```
 
 Add an argument (parameter) name to the constructor call using _nameof_ expression.
