@@ -173,13 +173,13 @@ namespace ExceptionGuardClauses.Tests
         }
 
         [Test]
-        public void GenerateGreeting_AddresseeIsEmpty_ThrowsArgumentNullException()
+        public void GenerateGreeting_AddresseeIsEmpty_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => ThrowingExceptions.GenerateGreeting("Hello", Array.Empty<string>(), 0));
         }
 
         [Test]
-        public void GenerateGreeting_AddresseeIsEmpty_ThrowsArgumentNullExceptionWithCorrectParameterName()
+        public void GenerateGreeting_AddresseeIsEmpty_ThrowsArgumentExceptionWithCorrectParameterName()
         {
             try
             {
@@ -192,14 +192,14 @@ namespace ExceptionGuardClauses.Tests
 
         [TestCase(-1)]
         [TestCase(1)]
-        public void GenerateGreeting_IndexIsOutOfRange_ThrowsArgumentNullException(int index)
+        public void GenerateGreeting_IndexIsOutOfRange_ThrowsArgumentOutOfRangeException(int index)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => ThrowingExceptions.GenerateGreeting("Hello", new string[] { "world" }, index));
         }
 
         [TestCase(-1)]
         [TestCase(1)]
-        public void GenerateGreeting_IndexIsOutOfRange_ThrowsArgumentNullExceptionWithCorrectParameterName(int index)
+        public void GenerateGreeting_IndexIsOutOfRange_ThrowsArgumentOutOfRangeExceptionWithCorrectParameterName(int index)
         {
             try
             {
@@ -224,7 +224,7 @@ namespace ExceptionGuardClauses.Tests
         }
 
         [Test]
-        public void GetArrayValue_IndexArrayIsNull_ThrowsNullArgumentExceptionWithCorrectParameterName()
+        public void GetArrayValue_IndexArrayIsNull_ThrowsArgumentNullExceptionWithCorrectParameterName()
         {
             try
             {
