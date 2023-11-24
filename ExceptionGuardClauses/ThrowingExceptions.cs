@@ -34,7 +34,7 @@ namespace ExceptionGuardClauses
 
             if (code.Length != 4)
             {
-                throw new ArgumentException($"code has {code.Length} chars.", nameof(code));
+                throw new Exception($"{nameof(code)} has {code.Length} chars.");
             }
 
             if (day <= 0 || day >= 100)
@@ -79,7 +79,7 @@ namespace ExceptionGuardClauses
 
             if (indexArray.Length == 0)
             {
-                throw new ArgumentException("indexArray is empty.", nameof(indexArray));
+                throw new InvalidProgramException($"{nameof(indexArray)} is empty.");
             }
 
             if (valueArray is null)
